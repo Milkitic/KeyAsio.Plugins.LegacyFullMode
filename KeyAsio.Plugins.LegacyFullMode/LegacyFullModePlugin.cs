@@ -45,8 +45,8 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 
         _synchronizedMusicPlayer = new SynchronizedMusicPlayer(syncLogger, context.AudioEngine, _appSettings);
         _songPreviewPlayer = new SongPreviewPlayer(previewLogger, context.AudioEngine, _appSettings);
-
-        var musicState = new MusicPlayingState(
+        var pauseStatus = new PauseStatus();
+        var musicState = new PlayingState(pauseStatus,
             _backgroundMusicManager,
             _gameplaySessionManager,
             _audioCacheManager,
@@ -55,7 +55,7 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         );
         context.RegisterStateHandler(SyncOsuStatus.Playing, musicState);
 
-        var musicBrowsingState = new MusicBrowsingState(_appSettings, _backgroundMusicManager, _logger);
+        var musicBrowsingState = new BrowsingState(_appSettings, _backgroundMusicManager, pauseStatus);
         context.RegisterStateHandler(SyncOsuStatus.SongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.EditSongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.MultiSongSelection, musicBrowsingState);

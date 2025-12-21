@@ -1,4 +1,4 @@
-using KeyAsio.Audio.Caching;
+﻿using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Shared;
 using KeyAsio.Shared.OsuMemory;
@@ -7,10 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace KeyAsio.Plugins.LegacyFullMode.States;
 
-public class MusicPlayingState : IGameStateHandler
+public class PlayingState : IGameStateHandler
 {
     private static readonly long MusicSyncIntervalTicks = System.Diagnostics.Stopwatch.Frequency / 1000;
 
+    private readonly PauseStatus _pauseStatus;
     private readonly BackgroundMusicManager _backgroundMusicManager;
     private readonly GameplaySessionManager _gameplaySessionManager;
     private readonly AudioCacheManager _audioCacheManager;
@@ -21,13 +22,15 @@ public class MusicPlayingState : IGameStateHandler
     private long _lastMusicSyncTimestamp;
     private int _lastPlayTime;
 
-    public MusicPlayingState(
+    public PlayingState(
+        PauseStatus pauseStatus,
         BackgroundMusicManager backgroundMusicManager,
         GameplaySessionManager gameplaySessionManager,
         AudioCacheManager audioCacheManager,
         AppSettings appSettings,
         ILogger logger)
     {
+        _pauseStatus = pauseStatus;
         _backgroundMusicManager = backgroundMusicManager;
         _gameplaySessionManager = gameplaySessionManager;
         _audioCacheManager = audioCacheManager;
@@ -57,7 +60,7 @@ public class MusicPlayingState : IGameStateHandler
         var enableMixSync = _enableMixSync;
         if (enableMixSync)
         {
-            _backgroundMusicManager.UpdatePauseCount(context.IsPaused);
+            _pauseStatus.UpdatePauseCount(context.PlayTime == _lastPlayTime);
         }
 
         if (!context.IsStarted) return HandleResult.Continue;
@@ -103,7 +106,7 @@ public class MusicPlayingState : IGameStateHandler
     {
         if (enableMixSync)
         {
-            _backgroundMusicManager.PauseCount = 0;
+            _pauseStatus.ResetPauseState();
             _backgroundMusicManager.StopCurrentMusic();
             _backgroundMusicManager.StartLowPass(200, 16000);
             _backgroundMusicManager.FirstStartInitialized = true;
@@ -122,7 +125,7 @@ public class MusicPlayingState : IGameStateHandler
 
         if (folder == null || filename == null) return;
 
-        if (_backgroundMusicManager.PauseCount >= playingPauseThreshold)
+        if (_pauseStatus.PauseCount >= playingPauseThreshold)
         {
             _backgroundMusicManager.ClearMainTrackAudio();
             return;
