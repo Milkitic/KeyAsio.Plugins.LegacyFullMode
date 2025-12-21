@@ -1,25 +1,25 @@
 ﻿using Coosu.Beatmap;
 using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
-using KeyAsio.Shared.Sync.Services;
 
 namespace KeyAsio.Plugins.LegacyFullMode.States;
 
 public class BrowsingState : IGameStateHandler
 {
     private readonly AppSettings _appSettings;
-    private readonly BackgroundMusicManager _backgroundMusicManager;
+    private readonly SongPreviewPlayer _songPreviewPlayer;
     private readonly PauseStatus _pauseStatus;
 
     private string? _lastPreviewAudioPath;
     private int _previewAudioTime = int.MinValue;
 
     public BrowsingState(AppSettings appSettings,
-        BackgroundMusicManager backgroundMusicManager,
+        SongPreviewPlayer songPreviewPlayer,
         PauseStatus pauseStatus)
     {
         _appSettings = appSettings;
-        _backgroundMusicManager = backgroundMusicManager;
+        _songPreviewPlayer = songPreviewPlayer;
         _pauseStatus = pauseStatus;
     }
 
@@ -27,7 +27,7 @@ public class BrowsingState : IGameStateHandler
 
     public HandleResult HandleEnter(ISyncContext context)
     {
-        _backgroundMusicManager.StartLowPass(200, 16000);
+        _songPreviewPlayer.StartLowPass(200, 16000);
         return HandleResult.Continue;
     }
 
@@ -47,13 +47,13 @@ public class BrowsingState : IGameStateHandler
         if (_pauseStatus.PauseCount >= selectSongPauseThreshold &&
             _pauseStatus.PreviousSelectSongStatus)
         {
-            _backgroundMusicManager.PauseCurrentMusic();
+            _ = _songPreviewPlayer.PauseCurrentMusic();
             _pauseStatus.PreviousSelectSongStatus = false;
         }
         else if (_pauseStatus.PauseCount < selectSongPauseThreshold &&
                  !_pauseStatus.PreviousSelectSongStatus)
         {
-            _backgroundMusicManager.RecoverCurrentMusic();
+            _ = _songPreviewPlayer.RecoverCurrentMusic();
             _pauseStatus.PreviousSelectSongStatus = true;
         }
 
@@ -89,8 +89,8 @@ public class BrowsingState : IGameStateHandler
         }
 
         _lastPreviewAudioPath = audioFilePath;
-        _backgroundMusicManager.StopCurrentMusic(200);
-        _backgroundMusicManager.PlaySingleAudioPreview(coosu, audioFilePath, coosu.General.PreviewTime);
+        _ = _songPreviewPlayer.StopCurrentMusic(200);
+        _ = _songPreviewPlayer.Play(coosu, audioFilePath, coosu.General.PreviewTime);
         _pauseStatus.ResetPauseState();
 
         return HandleResult.Continue;

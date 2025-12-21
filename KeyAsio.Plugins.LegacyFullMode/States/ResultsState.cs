@@ -1,23 +1,24 @@
-﻿using KeyAsio.Plugins.Abstractions;
+using Coosu.Beatmap;
+using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared.OsuMemory;
-using KeyAsio.Shared.Sync.Services;
 
 namespace KeyAsio.Plugins.LegacyFullMode.States;
 
 public class ResultsState : IGameStateHandler
 {
-    private readonly BackgroundMusicManager _backgroundMusicManager;
+    private readonly SynchronizedMusicPlayer _synchronizedMusicPlayer;
 
-    public ResultsState(BackgroundMusicManager backgroundMusicManager)
+    public ResultsState(SynchronizedMusicPlayer synchronizedMusicPlayer)
     {
-        _backgroundMusicManager = backgroundMusicManager;
+        _synchronizedMusicPlayer = synchronizedMusicPlayer;
     }
 
     public int Priority => 10;
 
     public HandleResult HandleEnter(ISyncContext context)
     {
-        _backgroundMusicManager.SetSingleTrackPlayMods(Mods.None);
+        _synchronizedMusicPlayer.PlayMods = Mods.None;
         return HandleResult.Continue;
     }
 

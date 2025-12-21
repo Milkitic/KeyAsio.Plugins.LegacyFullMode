@@ -26,7 +26,6 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 
     private GameplaySessionManager? _gameplaySessionManager;
     private AudioCacheManager? _audioCacheManager;
-    private BackgroundMusicManager? _backgroundMusicManager;
     private AppSettings? _appSettings;
     private ILogger<LegacyFullModePlugin>? _logger;
 
@@ -37,7 +36,6 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         _appSettings = sp.GetRequiredService<AppSettings>();
         _gameplaySessionManager = sp.GetRequiredService<GameplaySessionManager>();
         _audioCacheManager = sp.GetRequiredService<AudioCacheManager>();
-        _backgroundMusicManager = sp.GetRequiredService<BackgroundMusicManager>();
         _logger = sp.GetRequiredService<ILogger<LegacyFullModePlugin>>();
 
         var syncLogger = sp.GetRequiredService<ILogger<SynchronizedMusicPlayer>>();
@@ -47,7 +45,8 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         _songPreviewPlayer = new SongPreviewPlayer(previewLogger, context.AudioEngine, _appSettings);
         var pauseStatus = new PauseStatus();
         var musicState = new PlayingState(pauseStatus,
-            _backgroundMusicManager,
+            _songPreviewPlayer,
+            _synchronizedMusicPlayer,
             _gameplaySessionManager,
             _audioCacheManager,
             _appSettings,
@@ -55,9 +54,9 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         );
         context.RegisterStateHandler(SyncOsuStatus.Playing, musicState);
 
-        var musicBrowsingState = new BrowsingState(_appSettings, _backgroundMusicManager, pauseStatus);
-        context.RegisterStateHandler(SyncOsuStatus.ResultsScreen, new ResultsState(_backgroundMusicManager));
-        context.RegisterStateHandler(SyncOsuStatus.NotRunning, new NotRunningState(_appSettings, _backgroundMusicManager));
+        var musicBrowsingState = new BrowsingState(_appSettings, _songPreviewPlayer, pauseStatus);
+        context.RegisterStateHandler(SyncOsuStatus.ResultsScreen, new ResultsState(_synchronizedMusicPlayer));
+        context.RegisterStateHandler(SyncOsuStatus.NotRunning, new NotRunningState(_appSettings, _songPreviewPlayer));
         context.RegisterStateHandler(SyncOsuStatus.SongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.EditSongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.MainView, musicBrowsingState);
@@ -98,7 +97,6 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
     {
     }
 
-    // IMusicManagerPlugin implementation
     public void StartLowPass(int fadeMilliseconds, int targetFrequency)
         => _songPreviewPlayer?.StartLowPass(fadeMilliseconds, targetFrequency);
 

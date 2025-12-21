@@ -1,5 +1,6 @@
 ﻿using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
 using KeyAsio.Shared.OsuMemory;
 using KeyAsio.Shared.Sync.Services;
@@ -12,7 +13,8 @@ public class PlayingState : IGameStateHandler
     private static readonly long MusicSyncIntervalTicks = System.Diagnostics.Stopwatch.Frequency / 1000;
 
     private readonly PauseStatus _pauseStatus;
-    private readonly BackgroundMusicManager _backgroundMusicManager;
+    private readonly SongPreviewPlayer _songPreviewPlayer;
+    private readonly SynchronizedMusicPlayer _synchronizedMusicPlayer;
     private readonly GameplaySessionManager _gameplaySessionManager;
     private readonly AudioCacheManager _audioCacheManager;
     private readonly ILogger _logger;
@@ -22,16 +24,20 @@ public class PlayingState : IGameStateHandler
     private long _lastMusicSyncTimestamp;
     private int _lastPlayTime;
 
+    public bool FirstStartInitialized { get; set; }
+
     public PlayingState(
         PauseStatus pauseStatus,
-        BackgroundMusicManager backgroundMusicManager,
+        SongPreviewPlayer songPreviewPlayer,
+        SynchronizedMusicPlayer synchronizedMusicPlayer,
         GameplaySessionManager gameplaySessionManager,
         AudioCacheManager audioCacheManager,
         AppSettings appSettings,
         ILogger logger)
     {
         _pauseStatus = pauseStatus;
-        _backgroundMusicManager = backgroundMusicManager;
+        _songPreviewPlayer = songPreviewPlayer;
+        _synchronizedMusicPlayer = synchronizedMusicPlayer;
         _gameplaySessionManager = gameplaySessionManager;
         _audioCacheManager = audioCacheManager;
         _logger = logger;
@@ -51,7 +57,7 @@ public class PlayingState : IGameStateHandler
     {
         _lastMusicSyncTimestamp = 0;
         _lastPlayTime = int.MaxValue;
-        _backgroundMusicManager.StartLowPass(200, 800);
+        _songPreviewPlayer.StartLowPass(200, 800);
         return HandleResult.Continue;
     }
 
@@ -107,17 +113,17 @@ public class PlayingState : IGameStateHandler
         if (enableMixSync)
         {
             _pauseStatus.ResetPauseState();
-            _backgroundMusicManager.StopCurrentMusic();
-            _backgroundMusicManager.StartLowPass(200, 16000);
-            _backgroundMusicManager.FirstStartInitialized = true;
-            _backgroundMusicManager.ClearMainTrackAudio();
+            _ = _songPreviewPlayer.StopCurrentMusic();
+            _songPreviewPlayer.StartLowPass(200, 16000);
+            FirstStartInitialized = true;
+            _synchronizedMusicPlayer.ClearAudio();
         }
     }
 
     private void SyncMusic(ISyncContext ctx, int newMs)
     {
         const int playingPauseThreshold = 5;
-        if (!_backgroundMusicManager.FirstStartInitialized) return;
+        if (!FirstStartInitialized) return;
         if (_gameplaySessionManager.OsuFile == null) return;
 
         var folder = _gameplaySessionManager.BeatmapFolder;
@@ -127,7 +133,7 @@ public class PlayingState : IGameStateHandler
 
         if (_pauseStatus.PauseCount >= playingPauseThreshold)
         {
-            _backgroundMusicManager.ClearMainTrackAudio();
+            _synchronizedMusicPlayer.ClearAudio();
             return;
         }
 
@@ -137,11 +143,11 @@ public class PlayingState : IGameStateHandler
         const int codeLatency = -1;
         const int osuForceLatency = 15;
         var oldMapForceOffset = _gameplaySessionManager.OsuFile.Version < 5 ? 24 : 0;
-        _backgroundMusicManager.SetMainTrackOffsetAndLeadIn(osuForceLatency + codeLatency + oldMapForceOffset,
-            _gameplaySessionManager.OsuFile.General.AudioLeadIn);
+        _synchronizedMusicPlayer.Offset = osuForceLatency + codeLatency + oldMapForceOffset;
+        _synchronizedMusicPlayer.LeadInMilliseconds = _gameplaySessionManager.OsuFile.General.AudioLeadIn;
 
-        _backgroundMusicManager.SetSingleTrackPlayMods((Mods)ctx.PlayMods);
+        _synchronizedMusicPlayer.PlayMods = (Mods)ctx.PlayMods;
 
-        _backgroundMusicManager.SyncMainTrackAudio(cachedAudio, newMs);
+        _synchronizedMusicPlayer.SyncAudio(cachedAudio, newMs);
     }
 }

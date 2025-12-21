@@ -1,18 +1,18 @@
-﻿using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
-using KeyAsio.Shared.Sync.Services;
 
 namespace KeyAsio.Plugins.LegacyFullMode.States;
 
 public class NotRunningState : IGameStateHandler
 {
     private readonly AppSettings _appSettings;
-    private readonly BackgroundMusicManager _backgroundMusicManager;
+    private readonly SongPreviewPlayer _songPreviewPlayer;
 
-    public NotRunningState(AppSettings appSettings, BackgroundMusicManager backgroundMusicManager)
+    public NotRunningState(AppSettings appSettings, SongPreviewPlayer songPreviewPlayer)
     {
         _appSettings = appSettings;
-        _backgroundMusicManager = backgroundMusicManager;
+        _songPreviewPlayer = songPreviewPlayer;
     }
 
     public int Priority => 10;
@@ -21,7 +21,7 @@ public class NotRunningState : IGameStateHandler
     {
         if (_appSettings.Sync.EnableMixSync)
         {
-            _backgroundMusicManager.StopCurrentMusic(2000);
+            _ = _songPreviewPlayer.StopCurrentMusic(2000);
         }
 
         return HandleResult.Continue;
