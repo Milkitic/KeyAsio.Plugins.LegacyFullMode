@@ -1,10 +1,12 @@
 ﻿using Coosu.Beatmap;
 using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.LegacyFullMode.States;
 using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
 using KeyAsio.Shared.OsuMemory;
 using KeyAsio.Shared.Plugins;
+using KeyAsio.Shared.Sync.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -22,17 +24,36 @@ public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
     private SynchronizedMusicPlayer? _synchronizedMusicPlayer;
     private SongPreviewPlayer? _songPreviewPlayer;
 
+    private GameplaySessionManager? _gameplaySessionManager;
+    private AudioCacheManager? _audioCacheManager;
+    private BackgroundMusicManager? _backgroundMusicManager;
+    private AppSettings? _appSettings;
+    private ILogger<DefaultMusicPlugin>? _logger;
+
     public void Initialize(IPluginContext context)
     {
         _context = context;
         var sp = context.ServiceProvider;
-        var appSettings = sp.GetRequiredService<AppSettings>();
+        _appSettings = sp.GetRequiredService<AppSettings>();
+        _gameplaySessionManager = sp.GetRequiredService<GameplaySessionManager>();
+        _audioCacheManager = sp.GetRequiredService<AudioCacheManager>();
+        _backgroundMusicManager = sp.GetRequiredService<BackgroundMusicManager>();
+        _logger = sp.GetRequiredService<ILogger<DefaultMusicPlugin>>();
 
         var syncLogger = sp.GetRequiredService<ILogger<SynchronizedMusicPlayer>>();
         var previewLogger = sp.GetRequiredService<ILogger<SongPreviewPlayer>>();
 
-        _synchronizedMusicPlayer = new SynchronizedMusicPlayer(syncLogger, context.AudioEngine, appSettings);
-        _songPreviewPlayer = new SongPreviewPlayer(previewLogger, context.AudioEngine, appSettings);
+        _synchronizedMusicPlayer = new SynchronizedMusicPlayer(syncLogger, context.AudioEngine, _appSettings);
+        _songPreviewPlayer = new SongPreviewPlayer(previewLogger, context.AudioEngine, _appSettings);
+
+        var musicState = new MusicPlayingState(
+            _backgroundMusicManager,
+            _gameplaySessionManager,
+            _audioCacheManager,
+            _appSettings,
+            _logger
+        );
+        context.RegisterStateHandler(SyncOsuStatus.Playing, musicState);
     }
 
     public void Startup()
