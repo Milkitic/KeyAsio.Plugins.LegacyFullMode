@@ -44,15 +44,15 @@ public class MusicPlayingState : IGameStateHandler
 
     public int Priority => 10;
 
-    public bool OnEnter(ISyncContext context)
+    public HandleResult OnEnter(ISyncContext context)
     {
         _lastMusicSyncTimestamp = 0;
         _lastPlayTime = int.MaxValue;
         _backgroundMusicManager.StartLowPass(200, 800);
-        return false;
+        return HandleResult.Continue;
     }
 
-    public bool OnTick(ISyncContext context)
+    public HandleResult OnTick(ISyncContext context)
     {
         var enableMixSync = _enableMixSync;
         if (enableMixSync)
@@ -60,7 +60,7 @@ public class MusicPlayingState : IGameStateHandler
             _backgroundMusicManager.UpdatePauseCount(context.IsPaused);
         }
 
-        if (!context.IsStarted) return false;
+        if (!context.IsStarted) return HandleResult.Continue;
 
         var currMs = context.PlayTime;
         var prevMs = _lastPlayTime;
@@ -70,7 +70,7 @@ public class MusicPlayingState : IGameStateHandler
         if (prevMs > currMs && prevMs != 0)
         {
             OnRetry(context, enableMixSync);
-            return false;
+            return HandleResult.Continue;
         }
 
         var timestamp = context.LastUpdateTimestamp;
@@ -78,7 +78,7 @@ public class MusicPlayingState : IGameStateHandler
         // Logic for Music
         if (timestamp - _lastMusicSyncTimestamp >= MusicSyncIntervalTicks)
         {
-            if (!enableMixSync) return false;
+            if (!enableMixSync) return HandleResult.Continue;
             try
             {
                 SyncMusic(context, currMs);
@@ -91,12 +91,12 @@ public class MusicPlayingState : IGameStateHandler
             _lastMusicSyncTimestamp = timestamp;
         }
 
-        return false;
+        return HandleResult.Continue;
     }
 
-    public bool OnExit(ISyncContext context)
+    public HandleResult OnExit(ISyncContext context)
     {
-        return false;
+        return HandleResult.Continue;
     }
 
     private void OnRetry(ISyncContext ctx, bool enableMixSync)
