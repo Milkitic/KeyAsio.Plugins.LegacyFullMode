@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KeyAsio.Plugins.LegacyFullMode;
 
-public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
+public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 {
     public string Id => "KeyAsio.Plugins.LegacyFullMode";
     public string Name => "Legacy Realtime.FullMode";
@@ -28,7 +28,7 @@ public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
     private AudioCacheManager? _audioCacheManager;
     private BackgroundMusicManager? _backgroundMusicManager;
     private AppSettings? _appSettings;
-    private ILogger<DefaultMusicPlugin>? _logger;
+    private ILogger<LegacyFullModePlugin>? _logger;
 
     public void Initialize(IPluginContext context)
     {
@@ -38,7 +38,7 @@ public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
         _gameplaySessionManager = sp.GetRequiredService<GameplaySessionManager>();
         _audioCacheManager = sp.GetRequiredService<AudioCacheManager>();
         _backgroundMusicManager = sp.GetRequiredService<BackgroundMusicManager>();
-        _logger = sp.GetRequiredService<ILogger<DefaultMusicPlugin>>();
+        _logger = sp.GetRequiredService<ILogger<LegacyFullModePlugin>>();
 
         var syncLogger = sp.GetRequiredService<ILogger<SynchronizedMusicPlayer>>();
         var previewLogger = sp.GetRequiredService<ILogger<SongPreviewPlayer>>();
@@ -54,6 +54,12 @@ public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
             _logger
         );
         context.RegisterStateHandler(SyncOsuStatus.Playing, musicState);
+
+        var musicBrowsingState = new MusicBrowsingState(_appSettings, _backgroundMusicManager, _logger);
+        context.RegisterStateHandler(SyncOsuStatus.SongSelection, musicBrowsingState);
+        context.RegisterStateHandler(SyncOsuStatus.EditSongSelection, musicBrowsingState);
+        context.RegisterStateHandler(SyncOsuStatus.MultiSongSelection, musicBrowsingState);
+        context.RegisterStateHandler(SyncOsuStatus.MainView, musicBrowsingState);
     }
 
     public void Startup()

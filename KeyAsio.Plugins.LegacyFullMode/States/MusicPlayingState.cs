@@ -1,4 +1,4 @@
-﻿using KeyAsio.Audio.Caching;
+using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Shared;
 using KeyAsio.Shared.OsuMemory;
@@ -44,7 +44,7 @@ public class MusicPlayingState : IGameStateHandler
 
     public int Priority => 10;
 
-    public HandleResult OnEnter(ISyncContext context)
+    public HandleResult HandleEnter(ISyncContext context)
     {
         _lastMusicSyncTimestamp = 0;
         _lastPlayTime = int.MaxValue;
@@ -52,7 +52,7 @@ public class MusicPlayingState : IGameStateHandler
         return HandleResult.Continue;
     }
 
-    public HandleResult OnTick(ISyncContext context)
+    public HandleResult HandleTick(ISyncContext context)
     {
         var enableMixSync = _enableMixSync;
         if (enableMixSync)
@@ -94,7 +94,7 @@ public class MusicPlayingState : IGameStateHandler
         return HandleResult.Continue;
     }
 
-    public HandleResult OnExit(ISyncContext context)
+    public HandleResult HandleExit(ISyncContext context)
     {
         return HandleResult.Continue;
     }
