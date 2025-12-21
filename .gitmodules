@@ -1,0 +1,3 @@
+[submodule "Dependencies/KeyASIO.Net"]
+	path = Dependencies/KeyASIO.Net
+	url = https://github.com/Milkitic/KeyASIO.Net.git

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Dependencies/">
+    <Project Path="../KeyASIO.Net/src/KeyAsio.Audio/KeyAsio.Audio.csproj" />
+    <Project Path="../KeyASIO.Net/src/KeyAsio.Plugins.Abstractions/KeyAsio.Plugins.Abstractions.csproj" />
+    <Project Path="../KeyASIO.Net/src/KeyAsio.Shared/KeyAsio.Shared.csproj" />
+  </Folder>
+  <Project Path="KeyAsio.Plugins.LegacyFullMode\KeyAsio.Plugins.LegacyFullMode.csproj" />
+</Solution>
