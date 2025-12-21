@@ -56,10 +56,12 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         context.RegisterStateHandler(SyncOsuStatus.Playing, musicState);
 
         var musicBrowsingState = new BrowsingState(_appSettings, _backgroundMusicManager, pauseStatus);
+        context.RegisterStateHandler(SyncOsuStatus.ResultsScreen, new ResultsState(_backgroundMusicManager));
+        context.RegisterStateHandler(SyncOsuStatus.NotRunning, new NotRunningState(_appSettings, _backgroundMusicManager));
         context.RegisterStateHandler(SyncOsuStatus.SongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.EditSongSelection, musicBrowsingState);
-        context.RegisterStateHandler(SyncOsuStatus.MultiSongSelection, musicBrowsingState);
         context.RegisterStateHandler(SyncOsuStatus.MainView, musicBrowsingState);
+        context.RegisterStateHandler(SyncOsuStatus.MultiSongSelection, musicBrowsingState);
     }
 
     public void Startup()
