@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <BaseOutputPath>..\Dependencies\KeyASIO.Net\src\KeyAsio\bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

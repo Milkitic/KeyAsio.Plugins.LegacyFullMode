@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
-namespace KeyAsio.Plugins.DefaultMusic.Tracks;
+namespace KeyAsio.Plugins.LegacyFullMode.Tracks;
 
 public class SongPreviewPlayer
 {

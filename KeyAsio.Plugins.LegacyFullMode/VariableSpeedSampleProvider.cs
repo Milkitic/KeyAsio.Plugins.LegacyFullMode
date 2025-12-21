@@ -1,12 +1,11 @@
-﻿using KeyAsio.Plugins.LegacyFullMode.SoundTouch;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 
-namespace KeyAsio.Plugins.DefaultMusic;
+namespace KeyAsio.Plugins.LegacyFullMode;
 
 public class VariableSpeedSampleProvider : ISampleProvider, IDisposable
 {
     private readonly ISampleProvider _sourceProvider;
-    private readonly SoundTouch _soundTouch;
+    private readonly SoundTouch.SoundTouch _soundTouch;
     private readonly float[] _sourceReadBuffer;
     private readonly float[] _soundTouchReadBuffer;
     private readonly int _channelCount;
@@ -19,7 +18,7 @@ public class VariableSpeedSampleProvider : ISampleProvider, IDisposable
         int readDurationMilliseconds,
         VariableSpeedOptions variableSpeedOptions)
     {
-        _soundTouch = new SoundTouch();
+        _soundTouch = new SoundTouch.SoundTouch();
         // explore what the default values are before we change them:
 
         //var logger = Configuration.Instance.GetLogger<VariableSpeedSampleProvider>();

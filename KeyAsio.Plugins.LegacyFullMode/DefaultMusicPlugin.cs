@@ -1,22 +1,22 @@
 ﻿using Coosu.Beatmap;
 using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
-using KeyAsio.Plugins.DefaultMusic.Tracks;
+using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
 using KeyAsio.Shared.OsuMemory;
 using KeyAsio.Shared.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KeyAsio.Plugins.DefaultMusic;
+namespace KeyAsio.Plugins.LegacyFullMode;
 
 public class DefaultMusicPlugin : ISyncPlugin, IMusicManagerPlugin
 {
-    public string Id => "KeyAsio.Plugins.DefaultMusic";
-    public string Name => "Default MixSync";
-    public string Version => "1.0.0";
+    public string Id => "KeyAsio.Plugins.LegacyFullMode";
+    public string Name => "Legacy Realtime.FullMode";
+    public string Version => "4.0.0";
     public string Author => "KeyAsio Team";
-    public string Description => "Provides default music synchronization logic.";
+    public string Description => "Provides legacy(v3) music synchronization logic.";
 
     private IPluginContext? _context;
     private SynchronizedMusicPlayer? _synchronizedMusicPlayer;

@@ -1,4 +1,4 @@
-﻿namespace KeyAsio.Plugins.DefaultMusic;
+﻿namespace KeyAsio.Plugins.LegacyFullMode;
 
 public class Configuration
 {
