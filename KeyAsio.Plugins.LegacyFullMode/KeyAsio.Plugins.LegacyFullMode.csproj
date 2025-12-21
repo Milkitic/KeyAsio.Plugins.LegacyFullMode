@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Coosu.Beatmap" Version="2.3.41" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\KeyASIO.Net\src\KeyAsio.Plugins.Abstractions\KeyAsio.Plugins.Abstractions.csproj" />
-    <ProjectReference Include="..\..\KeyASIO.Net\src\KeyAsio.Shared\KeyAsio.Shared.csproj" />
+    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\KeyAsio.Plugins.Abstractions\KeyAsio.Plugins.Abstractions.csproj" />
+    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\KeyAsio.Shared\KeyAsio.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
