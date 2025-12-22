@@ -2,8 +2,8 @@
 using KeyAsio.Audio.Caching;
 using KeyAsio.Audio.SampleProviders;
 using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.Abstractions.OsuMemory;
 using KeyAsio.Shared;
-using KeyAsio.Shared.OsuMemory;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
 

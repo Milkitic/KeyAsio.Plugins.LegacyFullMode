@@ -1,8 +1,8 @@
 ﻿using KeyAsio.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.Abstractions.OsuMemory;
 using KeyAsio.Plugins.LegacyFullMode.Tracks;
 using KeyAsio.Shared;
-using KeyAsio.Shared.OsuMemory;
 using KeyAsio.Shared.Sync.Services;
 using Microsoft.Extensions.Logging;
 

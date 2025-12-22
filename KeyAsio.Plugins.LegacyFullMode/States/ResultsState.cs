@@ -1,7 +1,6 @@
-using Coosu.Beatmap;
-using KeyAsio.Plugins.Abstractions;
+﻿using KeyAsio.Plugins.Abstractions;
+using KeyAsio.Plugins.Abstractions.OsuMemory;
 using KeyAsio.Plugins.LegacyFullMode.Tracks;
-using KeyAsio.Shared.OsuMemory;
 
 namespace KeyAsio.Plugins.LegacyFullMode.States;
 
