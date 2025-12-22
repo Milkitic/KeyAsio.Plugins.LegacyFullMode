@@ -1,6 +1,6 @@
-﻿using KeyAsio.Audio;
-using KeyAsio.Audio.Caching;
-using KeyAsio.Audio.SampleProviders;
+﻿using KeyAsio.Core.Audio;
+using KeyAsio.Core.Audio.Caching;
+using KeyAsio.Core.Audio.SampleProviders;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Plugins.Abstractions.OsuMemory;
 using KeyAsio.Shared;

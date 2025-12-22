@@ -1,15 +1,15 @@
 <Solution>
   <Folder Name="/Dependencies/">
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio.Memory/KeyAsio.Memory.csproj" />
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio.Sentry/KeyAsio.Sentry.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Core/KeyAsio.Core.Audio/KeyAsio.Core.Audio.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Core/KeyAsio.Core.Memory/KeyAsio.Core.Memory.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Common/KeyAsio.Sentry/KeyAsio.Sentry.csproj" />
     <Project Path="Dependencies/KeyASIO.Net/dependencies/Milki.Extensions/src/Milki.Extensions.Configuration/Milki.Extensions.Configuration.csproj" />
     <Project Path="Dependencies/KeyASIO.Net/dependencies/Milki.Extensions/src/Milki.Extensions.MouseKeyHook/Milki.Extensions.MouseKeyHook.csproj" />
     <Project Path="Dependencies/KeyASIO.Net/dependencies/Milki.Extensions/src/Milki.Extensions.Threading/Milki.Extensions.Threading.csproj" />
     <Project Path="Dependencies/KeyASIO.Net/dependencies/NAudio/NAudio.Asio/NAudio.Asio.csproj" />
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio.Audio/KeyAsio.Audio.csproj" />
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio.Plugins.Abstractions/KeyAsio.Plugins.Abstractions.csproj" />
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio.Shared/KeyAsio.Shared.csproj" />
-    <Project Path="Dependencies/KeyASIO.Net/src/KeyAsio/KeyAsio.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Common/KeyAsio.Plugins.Abstractions/KeyAsio.Plugins.Abstractions.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Common/KeyAsio.Shared/KeyAsio.Shared.csproj" />
+    <Project Path="Dependencies/KeyASIO.Net/src/Apps/KeyAsio/KeyAsio.csproj" />
   </Folder>
   <Project Path="KeyAsio.Plugins.LegacyFullMode\KeyAsio.Plugins.LegacyFullMode.csproj" />
 </Solution>

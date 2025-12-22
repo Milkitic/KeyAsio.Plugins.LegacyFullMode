@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\KeyAsio.Plugins.Abstractions\KeyAsio.Plugins.Abstractions.csproj" />
-    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\KeyAsio.Shared\KeyAsio.Shared.csproj" />
+    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\Common\KeyAsio.Plugins.Abstractions\KeyAsio.Plugins.Abstractions.csproj" />
+    <ProjectReference Include="..\Dependencies\KeyASIO.Net\src\Common\KeyAsio.Shared\KeyAsio.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

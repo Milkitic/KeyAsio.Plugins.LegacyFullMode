@@ -1,8 +1,8 @@
 ﻿using Coosu.Beatmap;
-using KeyAsio.Audio;
-using KeyAsio.Audio.SampleProviders;
-using KeyAsio.Audio.Utils;
-using KeyAsio.Audio.Wave;
+using KeyAsio.Core.Audio;
+using KeyAsio.Core.Audio.SampleProviders;
+using KeyAsio.Core.Audio.Utils;
+using KeyAsio.Core.Audio.Wave;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Shared;
 using Microsoft.Extensions.Logging;
