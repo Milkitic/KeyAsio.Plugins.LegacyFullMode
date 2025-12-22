@@ -21,7 +21,7 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
     public string Author => "KeyAsio Team";
     public string Description => "Provides legacy(v3) music synchronization logic.";
     public string OptionName => "MIX";
-    public string OptionLevel => "Legacy";
+    public string OptionTag => "Legacy";
     public int OptionPriority => 10;
     public bool CanEnableOption => true;
   
