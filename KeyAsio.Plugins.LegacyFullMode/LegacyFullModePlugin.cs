@@ -35,6 +35,7 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         var sp = context.ServiceProvider;
         _appSettings = sp.GetRequiredService<AppSettings>();
         _gameplaySessionManager = sp.GetRequiredService<GameplaySessionManager>();
+        _gameplaySessionManager.SessionStopped += OnSessionStopped;
         _audioCacheManager = sp.GetRequiredService<AudioCacheManager>();
         _logger = sp.GetRequiredService<ILogger<LegacyFullModePlugin>>();
 
@@ -69,6 +70,11 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 
     public void Shutdown()
     {
+        if (_gameplaySessionManager != null)
+        {
+            _gameplaySessionManager.SessionStopped -= OnSessionStopped;
+        }
+
         _ = _songPreviewPlayer?.StopCurrentMusic();
         _synchronizedMusicPlayer?.ClearAudio();
     }
@@ -131,4 +137,17 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 
     public void ClearMainTrackAudio()
         => _synchronizedMusicPlayer?.ClearAudio();
+
+    private void OnSessionStopped()
+    {
+        _synchronizedMusicPlayer?.ClearAudio();
+
+        var manager = _gameplaySessionManager;
+        if (manager is not { OsuFile: not null, BeatmapFolder: not null }) return;
+
+        var audioPath = manager.OsuFile.General.AudioFilename == null
+            ? null
+            : Path.Combine(manager.BeatmapFolder, manager.OsuFile.General.AudioFilename);
+        _songPreviewPlayer?.Play(manager.OsuFile, audioPath, manager.OsuFile.General.PreviewTime);
+    }
 }
