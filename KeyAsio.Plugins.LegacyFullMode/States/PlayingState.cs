@@ -18,13 +18,12 @@ public class PlayingState : IGameStateHandler
     private readonly GameplaySessionManager _gameplaySessionManager;
     private readonly AudioCacheManager _audioCacheManager;
     private readonly ILogger _logger;
-
+    
+    private bool _firstStartInitialized;
     private bool _enableMixSync;
 
     private long _lastMusicSyncTimestamp;
     private int _lastPlayTime;
-
-    public bool FirstStartInitialized { get; set; }
 
     public PlayingState(
         PauseStatus pauseStatus,
@@ -115,7 +114,7 @@ public class PlayingState : IGameStateHandler
             _pauseStatus.ResetPauseState();
             _ = _songPreviewPlayer.StopCurrentMusic();
             _songPreviewPlayer.StartLowPass(200, 16000);
-            FirstStartInitialized = true;
+            _firstStartInitialized = true;
             _synchronizedMusicPlayer.ClearAudio();
         }
     }
@@ -123,7 +122,7 @@ public class PlayingState : IGameStateHandler
     private void SyncMusic(ISyncContext ctx, int newMs)
     {
         const int playingPauseThreshold = 5;
-        if (!FirstStartInitialized) return;
+        if (!_firstStartInitialized) return;
         if (_gameplaySessionManager.OsuFile == null) return;
 
         var folder = _gameplaySessionManager.BeatmapFolder;
