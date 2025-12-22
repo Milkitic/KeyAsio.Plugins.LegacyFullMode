@@ -13,12 +13,18 @@ namespace KeyAsio.Plugins.LegacyFullMode;
 
 public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
 {
+    public event EventHandler? OptionStateChanged;
+
     public string Id => "KeyAsio.Plugins.LegacyFullMode";
     public string Name => "Legacy Realtime.FullMode";
     public string Version => "4.0.0";
     public string Author => "KeyAsio Team";
     public string Description => "Provides legacy(v3) music synchronization logic.";
-
+    public string OptionName => "MIX";
+    public string OptionLevel => "Legacy";
+    public int OptionPriority => 10;
+    public bool CanEnableOption => true;
+  
     private IPluginContext? _context;
     private SynchronizedMusicPlayer? _synchronizedMusicPlayer;
     private SongPreviewPlayer? _songPreviewPlayer;
