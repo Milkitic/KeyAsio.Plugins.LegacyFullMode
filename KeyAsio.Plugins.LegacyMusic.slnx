@@ -11,5 +11,5 @@
     <Project Path="Dependencies/KeyASIO.Net/src/Common/KeyAsio.Shared/KeyAsio.Shared.csproj" />
     <Project Path="Dependencies/KeyASIO.Net/src/Apps/KeyAsio/KeyAsio.csproj" />
   </Folder>
-  <Project Path="KeyAsio.Plugins.LegacyFullMode\KeyAsio.Plugins.LegacyFullMode.csproj" />
+  <Project Path="KeyAsio.Plugins.LegacyMusic\KeyAsio.Plugins.LegacyMusic.csproj" />
 </Solution>

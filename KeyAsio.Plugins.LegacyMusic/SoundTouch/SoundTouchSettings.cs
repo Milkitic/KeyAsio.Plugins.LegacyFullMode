@@ -1,4 +1,4 @@
-﻿namespace KeyAsio.Plugins.LegacyFullMode.SoundTouch;
+﻿namespace KeyAsio.Plugins.LegacyMusic.SoundTouch;
 
 internal enum SoundTouchSettings
 {

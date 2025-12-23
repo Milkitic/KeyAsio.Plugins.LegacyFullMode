@@ -1,8 +1,8 @@
 ﻿using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Plugins.Abstractions.OsuMemory;
-using KeyAsio.Plugins.LegacyFullMode.Tracks;
+using KeyAsio.Plugins.LegacyMusic.Tracks;
 
-namespace KeyAsio.Plugins.LegacyFullMode.States;
+namespace KeyAsio.Plugins.LegacyMusic.States;
 
 public class ResultsState : IGameStateHandler
 {

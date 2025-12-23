@@ -2,25 +2,25 @@
 using KeyAsio.Core.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Plugins.Abstractions.OsuMemory;
-using KeyAsio.Plugins.LegacyFullMode.States;
-using KeyAsio.Plugins.LegacyFullMode.Tracks;
+using KeyAsio.Plugins.LegacyMusic.States;
+using KeyAsio.Plugins.LegacyMusic.Tracks;
 using KeyAsio.Shared;
 using KeyAsio.Shared.Sync.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace KeyAsio.Plugins.LegacyFullMode;
+namespace KeyAsio.Plugins.LegacyMusic;
 
-public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
+public class LegacyMusicPlugin : ISyncPlugin, IMusicManagerPlugin
 {
     public event EventHandler? OptionStateChanged;
 
-    public string Id => "KeyAsio.Plugins.LegacyFullMode";
+    public string Id => "KeyAsio.Plugins.LegacyMusic";
     public string Name => "Legacy Realtime.FullMode";
     public string Version => "4.0.0";
     public string Author => "KeyAsio Team";
     public string Description => "Provides legacy(v3) music synchronization logic.";
-    public string OptionName => "MIX";
+    public string OptionName => "Music";
     public string OptionTag => "Legacy";
     public int OptionPriority => 10;
     public bool CanEnableOption => true;
@@ -32,7 +32,7 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
     private GameplaySessionManager? _gameplaySessionManager;
     private AudioCacheManager? _audioCacheManager;
     private AppSettings? _appSettings;
-    private ILogger<LegacyFullModePlugin>? _logger;
+    private ILogger<LegacyMusicPlugin>? _logger;
 
     public void Initialize(IPluginContext context)
     {
@@ -42,7 +42,7 @@ public class LegacyFullModePlugin : ISyncPlugin, IMusicManagerPlugin
         _gameplaySessionManager = sp.GetRequiredService<GameplaySessionManager>();
         _gameplaySessionManager.SessionStopped += OnSessionStopped;
         _audioCacheManager = sp.GetRequiredService<AudioCacheManager>();
-        _logger = sp.GetRequiredService<ILogger<LegacyFullModePlugin>>();
+        _logger = sp.GetRequiredService<ILogger<LegacyMusicPlugin>>();
 
         var syncLogger = sp.GetRequiredService<ILogger<SynchronizedMusicPlayer>>();
         var previewLogger = sp.GetRequiredService<ILogger<SongPreviewPlayer>>();

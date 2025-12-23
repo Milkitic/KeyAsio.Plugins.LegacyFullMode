@@ -1,12 +1,12 @@
 ﻿using KeyAsio.Core.Audio.Caching;
 using KeyAsio.Plugins.Abstractions;
 using KeyAsio.Plugins.Abstractions.OsuMemory;
-using KeyAsio.Plugins.LegacyFullMode.Tracks;
+using KeyAsio.Plugins.LegacyMusic.Tracks;
 using KeyAsio.Shared;
 using KeyAsio.Shared.Sync.Services;
 using Microsoft.Extensions.Logging;
 
-namespace KeyAsio.Plugins.LegacyFullMode.States;
+namespace KeyAsio.Plugins.LegacyMusic.States;
 
 public class PlayingState : IGameStateHandler
 {

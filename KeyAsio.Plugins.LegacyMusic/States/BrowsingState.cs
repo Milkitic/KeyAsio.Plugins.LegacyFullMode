@@ -1,9 +1,9 @@
 ﻿using Coosu.Beatmap;
 using KeyAsio.Plugins.Abstractions;
-using KeyAsio.Plugins.LegacyFullMode.Tracks;
+using KeyAsio.Plugins.LegacyMusic.Tracks;
 using KeyAsio.Shared;
 
-namespace KeyAsio.Plugins.LegacyFullMode.States;
+namespace KeyAsio.Plugins.LegacyMusic.States;
 
 public class BrowsingState : IGameStateHandler
 {

@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace KeyAsio.Plugins.LegacyFullMode;
+namespace KeyAsio.Plugins.LegacyMusic;
 
 public class VariableSpeedSampleProvider : ISampleProvider, IDisposable
 {

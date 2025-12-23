@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace KeyAsio.Plugins.LegacyFullMode.SoundTouch;
+namespace KeyAsio.Plugins.LegacyMusic.SoundTouch;
 
 internal class SoundTouch : IDisposable
 {

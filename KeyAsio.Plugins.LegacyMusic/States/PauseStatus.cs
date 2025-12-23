@@ -1,4 +1,4 @@
-﻿namespace KeyAsio.Plugins.LegacyFullMode.States;
+﻿namespace KeyAsio.Plugins.LegacyMusic.States;
 
 public class PauseStatus
 {

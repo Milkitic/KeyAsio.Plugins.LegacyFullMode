@@ -7,7 +7,7 @@ using KeyAsio.Shared;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
 
-namespace KeyAsio.Plugins.LegacyFullMode.Tracks;
+namespace KeyAsio.Plugins.LegacyMusic.Tracks;
 
 public class SynchronizedMusicPlayer
 {
