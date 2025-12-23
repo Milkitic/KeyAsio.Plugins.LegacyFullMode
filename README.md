@@ -7,16 +7,16 @@ The original music sync logic from v3. Available as a free, community-maintained
 Follow these steps to manually build and enable the Legacy FullMode sync engine:
 
 1. **Prepare Source & Submodules**
-   Checkout the submodules to the branch corresponding to your KeyAsio version tag. 
+   Initialize submodules (e.g., `git submodule update --init --recursive`) and check them out to the branch corresponding to your KeyAsio version tag.
    > *Note: For v4.x, the KeyAsio team will strive to maintain API compatibility for legacy plugins.*
 
 2. **Publish & Deploy Plugin**
-   Publish the project targeting your specific Runtime Identifier (RID), such as `win-x64` or `win-x86`.
+   Publish the project targeting your specific Runtime Identifier (RID), for example: `dotnet publish -r win-x64`.
    Copy the output `KeyAsio.Plugins.LegacyFullMode.dll` to the KeyAsio application root directory. 
    *(Recommendation: If prompted, do not overwrite existing core system files.)*
 
 3. **Install Native Dependencies**
-   Ensure the corresponding versions of `SoundTouch` native DLL files are present in the application root directory. These are required for the legacy time-stretching logic.
+   Copy the required `SoundTouch` native DLLs from the publish output directory to the application root directory. These are required for the legacy time-stretching logic.
 
 4. **Activate in KeyAsio**
    Restart the KeyAsio client. You will notice the mode toggle in the top-right corner is now interactive. Click to switch and activate the **Legacy Realtime.FullMode**.
